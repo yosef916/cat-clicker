@@ -1,26 +1,35 @@
-document.body.innerHTML = '';
+var cats = $(".cat");
+var buttons = $("button");
 
-var cats = ['1', '2', '3', '4', '5'];
+function hideAllCats(){
+  for (var i=0; i<cats.length; i++){
+    $(cats[i]).hide();
+  }
+}
 
-for (var i = 0; i < cats.length; i++) {
-  var catList = cats[i];
+function bindButtonToCat(idNumber){
+  $("#button"+idNumber).click(function(){
+    hideAllCats();
+    $("#cat"+idNumber).show();
+  })
+}
 
-  var elem = document.createElement('div');
-  elem.setAttribute('id', 'allImages');
+function bindCounterToCat(idNumber){
+  var cat = "#cat"+idNumber
+  $(cat).click(function(){
+    var count = $(cat+" > .counter").text();
+    count = parseInt(count) + 1;
+    $(cat+" > .counter").text(count);
+  });
+}
 
-  var newElem = document.createElement('div');
-  newElem.className += 'display';
+for (var i=1; i<=buttons.length; i++){
+  bindButtonToCat(i);
+}
 
-  var images = document.createElement('img');
-  images.className += 'size';
-  images.setAttribute('src', 'img/'+ catList +'.jpg');
-  
-  images.addEventListener('click', (function() {
-    images.className= "";
-    newElem.appendChild(catList);
-  }));
+for (var i=1; i<=cats.length; i++){
+  bindCounterToCat(i);
+}
 
-  document.body.appendChild(elem);
-  elem.appendChild(images);
-  document.body.appendChild(newElem);
-};
+hideAllCats();
+$("#cat1").show();
